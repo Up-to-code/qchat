@@ -177,11 +177,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -213,11 +213,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -254,11 +254,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -296,11 +296,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -418,11 +418,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -454,11 +454,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -500,6 +500,42 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
             title: string;
             variant: "empty" | "unavailable" | "error";
             description?: string | undefined;
+        }>, z.ZodObject<{
+            type: z.ZodLiteral<"info-card">;
+            id: z.ZodString;
+            title: z.ZodString;
+            description: z.ZodString;
+            facts: z.ZodOptional<z.ZodArray<z.ZodObject<{
+                label: z.ZodString;
+                value: z.ZodString;
+            }, "strict", z.ZodTypeAny, {
+                value: string;
+                label: string;
+            }, {
+                value: string;
+                label: string;
+            }>, "many">>;
+            source: z.ZodOptional<z.ZodString>;
+        }, "strict", z.ZodTypeAny, {
+            type: "info-card";
+            id: string;
+            title: string;
+            description: string;
+            facts?: {
+                value: string;
+                label: string;
+            }[] | undefined;
+            source?: string | undefined;
+        }, {
+            type: "info-card";
+            id: string;
+            title: string;
+            description: string;
+            facts?: {
+                value: string;
+                label: string;
+            }[] | undefined;
+            source?: string | undefined;
         }>]>, "many">;
     }, "strict", z.ZodTypeAny, {
         id: string;
@@ -513,11 +549,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -553,11 +589,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -589,6 +625,16 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
             title: string;
             variant: "empty" | "unavailable" | "error";
             description?: string | undefined;
+        } | {
+            type: "info-card";
+            id: string;
+            title: string;
+            description: string;
+            facts?: {
+                value: string;
+                label: string;
+            }[] | undefined;
+            source?: string | undefined;
         })[];
     }, {
         id: string;
@@ -602,11 +648,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -642,11 +688,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -678,6 +724,16 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
             title: string;
             variant: "empty" | "unavailable" | "error";
             description?: string | undefined;
+        } | {
+            type: "info-card";
+            id: string;
+            title: string;
+            description: string;
+            facts?: {
+                value: string;
+                label: string;
+            }[] | undefined;
+            source?: string | undefined;
         })[];
     }>;
 }, "strip", z.ZodTypeAny, {
@@ -694,11 +750,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -734,11 +790,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -770,6 +826,16 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
             title: string;
             variant: "empty" | "unavailable" | "error";
             description?: string | undefined;
+        } | {
+            type: "info-card";
+            id: string;
+            title: string;
+            description: string;
+            facts?: {
+                value: string;
+                label: string;
+            }[] | undefined;
+            source?: string | undefined;
         })[];
     };
 }, {
@@ -786,11 +852,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -826,11 +892,11 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -862,6 +928,16 @@ declare const qChatEventSchema: z.ZodDiscriminatedUnion<"type", [z.ZodObject<{
             title: string;
             variant: "empty" | "unavailable" | "error";
             description?: string | undefined;
+        } | {
+            type: "info-card";
+            id: string;
+            title: string;
+            description: string;
+            facts?: {
+                value: string;
+                label: string;
+            }[] | undefined;
+            source?: string | undefined;
         })[];
     };
 }>, z.ZodObject<{
@@ -1089,11 +1165,11 @@ declare const qChatORPCContract: {
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -1129,11 +1205,11 @@ declare const qChatORPCContract: {
                         amount: number;
                         currency: string;
                     };
-                    description?: string | undefined;
                     image?: {
                         src: string;
                         alt: string;
                     } | undefined;
+                    description?: string | undefined;
                     tags?: string[] | undefined;
                     colors?: {
                         value: string;
@@ -1165,6 +1241,16 @@ declare const qChatORPCContract: {
                 title: string;
                 variant: "empty" | "unavailable" | "error";
                 description?: string | undefined;
+            } | {
+                type: "info-card";
+                id: string;
+                title: string;
+                description: string;
+                facts?: {
+                    value: string;
+                    label: string;
+                }[] | undefined;
+                source?: string | undefined;
             })[];
         };
     } | {
@@ -1230,11 +1316,11 @@ declare const qChatORPCContract: {
                     amount: number;
                     currency: string;
                 };
-                description?: string | undefined;
                 image?: {
                     src: string;
                     alt: string;
                 } | undefined;
+                description?: string | undefined;
                 tags?: string[] | undefined;
                 colors?: {
                     value: string;
@@ -1270,11 +1356,11 @@ declare const qChatORPCContract: {
                         amount: number;
                         currency: string;
                     };
-                    description?: string | undefined;
                     image?: {
                         src: string;
                         alt: string;
                     } | undefined;
+                    description?: string | undefined;
                     tags?: string[] | undefined;
                     colors?: {
                         value: string;
@@ -1306,6 +1392,16 @@ declare const qChatORPCContract: {
                 title: string;
                 variant: "empty" | "unavailable" | "error";
                 description?: string | undefined;
+            } | {
+                type: "info-card";
+                id: string;
+                title: string;
+                description: string;
+                facts?: {
+                    value: string;
+                    label: string;
+                }[] | undefined;
+                source?: string | undefined;
             })[];
         };
     } | {

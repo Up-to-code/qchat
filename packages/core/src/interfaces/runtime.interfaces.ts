@@ -1,6 +1,7 @@
 /** Public contracts shared by QChat adapters, servers, transports, and renderers. */
 export type QChatRole = "user" | "assistant" | "system";
-export interface QChatMessageRecord { readonly id: string; readonly role: QChatRole; readonly content: string; readonly createdAt: string }
+export interface QChatMessageAttachment { readonly kind:"image"|"file"; readonly mediaType:string; readonly filename?:string; readonly previewUrl?:string }
+export interface QChatMessageRecord { readonly id: string; readonly role: QChatRole; readonly content: string; readonly createdAt: string; readonly attachments?:readonly QChatMessageAttachment[] }
 export interface QChatToolDescriptor { readonly name: string; readonly description: string; readonly inputSchema?: Readonly<Record<string, unknown>> }
 export interface QChatRequestMetadata { readonly conversationId: string; readonly runId: string; readonly userId?: string; readonly locale?: string; readonly [key: string]: unknown }
 export interface QChatRunInput { readonly messages: readonly QChatMessageRecord[]; readonly tools: readonly QChatToolDescriptor[]; readonly systemPrompt: string; readonly metadata: QChatRequestMetadata; readonly signal: AbortSignal; readonly repair?: { readonly attempt: number; readonly diagnostics: readonly string[] } }

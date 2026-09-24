@@ -2,11 +2,18 @@ import { z } from 'zod';
 
 /** Public contracts shared by QChat adapters, servers, transports, and renderers. */
 type QChatRole = "user" | "assistant" | "system";
+interface QChatMessageAttachment {
+    readonly kind: "image" | "file";
+    readonly mediaType: string;
+    readonly filename?: string;
+    readonly previewUrl?: string;
+}
 interface QChatMessageRecord {
     readonly id: string;
     readonly role: QChatRole;
     readonly content: string;
     readonly createdAt: string;
+    readonly attachments?: readonly QChatMessageAttachment[];
 }
 interface QChatToolDescriptor {
     readonly name: string;
@@ -109,7 +116,19 @@ interface QChatStatusNode {
     readonly title: string;
     readonly description?: string;
 }
-type QChatUINode = QChatProductCollectionNode | QChatProductCardNode | QChatStatusNode;
+/** A bounded, industry-neutral result backed by host data rather than model-authored markup. */
+interface QChatInfoCardNode {
+    readonly type: "info-card";
+    readonly id: string;
+    readonly title: string;
+    readonly description: string;
+    readonly facts?: readonly {
+        readonly label: string;
+        readonly value: string;
+    }[];
+    readonly source?: string;
+}
+type QChatUINode = QChatProductCollectionNode | QChatProductCardNode | QChatStatusNode | QChatInfoCardNode;
 interface QChatUIDocument {
     readonly version: "1";
     readonly id: string;
@@ -158,6 +177,23 @@ type QChatAgentEvent = {
     readonly type: "failure";
     readonly error: QChatErrorShape;
 };
+
+/** Host-supplied commerce facts. These are not generated UI instructions. */
+interface QChatProductVariant {
+    readonly id: string;
+    readonly color: string;
+    readonly size: string;
+    readonly price: {
+        readonly amount: number;
+        readonly currency: string;
+    };
+    readonly available: boolean;
+    readonly image?: {
+        readonly src: string;
+        readonly alt: string;
+    };
+}
+type QChatProductVariantCatalog = Readonly<Record<string, readonly QChatProductVariant[]>>;
 
 declare const qChatChoiceOptionSchema: z.ZodObject<{
     value: z.ZodString;
@@ -267,11 +303,11 @@ declare const qChatProductCardSchema: z.ZodObject<{
         amount: number;
         currency: string;
     };
-    description?: string | undefined;
     image?: {
         src: string;
         alt: string;
     } | undefined;
+    description?: string | undefined;
     tags?: string[] | undefined;
     colors?: {
         value: string;
@@ -303,11 +339,11 @@ declare const qChatProductCardSchema: z.ZodObject<{
         amount: number;
         currency: string;
     };
-    description?: string | undefined;
     image?: {
         src: string;
         alt: string;
     } | undefined;
+    description?: string | undefined;
     tags?: string[] | undefined;
     colors?: {
         value: string;
@@ -429,11 +465,11 @@ declare const qChatProductCollectionSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -465,11 +501,11 @@ declare const qChatProductCollectionSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -506,11 +542,11 @@ declare const qChatProductCollectionSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -548,11 +584,11 @@ declare const qChatProductCollectionSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -597,6 +633,43 @@ declare const qChatStatusSchema: z.ZodObject<{
     title: string;
     variant: "empty" | "unavailable" | "error";
     description?: string | undefined;
+}>;
+declare const qChatInfoCardSchema: z.ZodObject<{
+    type: z.ZodLiteral<"info-card">;
+    id: z.ZodString;
+    title: z.ZodString;
+    description: z.ZodString;
+    facts: z.ZodOptional<z.ZodArray<z.ZodObject<{
+        label: z.ZodString;
+        value: z.ZodString;
+    }, "strict", z.ZodTypeAny, {
+        value: string;
+        label: string;
+    }, {
+        value: string;
+        label: string;
+    }>, "many">>;
+    source: z.ZodOptional<z.ZodString>;
+}, "strict", z.ZodTypeAny, {
+    type: "info-card";
+    id: string;
+    title: string;
+    description: string;
+    facts?: {
+        value: string;
+        label: string;
+    }[] | undefined;
+    source?: string | undefined;
+}, {
+    type: "info-card";
+    id: string;
+    title: string;
+    description: string;
+    facts?: {
+        value: string;
+        label: string;
+    }[] | undefined;
+    source?: string | undefined;
 }>;
 declare const qChatUIDocumentSchema: z.ZodObject<{
     version: z.ZodLiteral<"1">;
@@ -699,11 +772,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -735,11 +808,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -776,11 +849,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -818,11 +891,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -940,11 +1013,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -976,11 +1049,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -1022,6 +1095,42 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
         title: string;
         variant: "empty" | "unavailable" | "error";
         description?: string | undefined;
+    }>, z.ZodObject<{
+        type: z.ZodLiteral<"info-card">;
+        id: z.ZodString;
+        title: z.ZodString;
+        description: z.ZodString;
+        facts: z.ZodOptional<z.ZodArray<z.ZodObject<{
+            label: z.ZodString;
+            value: z.ZodString;
+        }, "strict", z.ZodTypeAny, {
+            value: string;
+            label: string;
+        }, {
+            value: string;
+            label: string;
+        }>, "many">>;
+        source: z.ZodOptional<z.ZodString>;
+    }, "strict", z.ZodTypeAny, {
+        type: "info-card";
+        id: string;
+        title: string;
+        description: string;
+        facts?: {
+            value: string;
+            label: string;
+        }[] | undefined;
+        source?: string | undefined;
+    }, {
+        type: "info-card";
+        id: string;
+        title: string;
+        description: string;
+        facts?: {
+            value: string;
+            label: string;
+        }[] | undefined;
+        source?: string | undefined;
     }>]>, "many">;
 }, "strict", z.ZodTypeAny, {
     id: string;
@@ -1035,11 +1144,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -1075,11 +1184,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -1111,6 +1220,16 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
         title: string;
         variant: "empty" | "unavailable" | "error";
         description?: string | undefined;
+    } | {
+        type: "info-card";
+        id: string;
+        title: string;
+        description: string;
+        facts?: {
+            value: string;
+            label: string;
+        }[] | undefined;
+        source?: string | undefined;
     })[];
 }, {
     id: string;
@@ -1124,11 +1243,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
             amount: number;
             currency: string;
         };
-        description?: string | undefined;
         image?: {
             src: string;
             alt: string;
         } | undefined;
+        description?: string | undefined;
         tags?: string[] | undefined;
         colors?: {
             value: string;
@@ -1164,11 +1283,11 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
                 amount: number;
                 currency: string;
             };
-            description?: string | undefined;
             image?: {
                 src: string;
                 alt: string;
             } | undefined;
+            description?: string | undefined;
             tags?: string[] | undefined;
             colors?: {
                 value: string;
@@ -1200,8 +1319,73 @@ declare const qChatUIDocumentSchema: z.ZodObject<{
         title: string;
         variant: "empty" | "unavailable" | "error";
         description?: string | undefined;
+    } | {
+        type: "info-card";
+        id: string;
+        title: string;
+        description: string;
+        facts?: {
+            value: string;
+            label: string;
+        }[] | undefined;
+        source?: string | undefined;
     })[];
 }>;
 type QChatUIDocumentInput = z.input<typeof qChatUIDocumentSchema>;
 
-export { type QChatAction, type QChatActionResult, type QChatAgentEvent, type QChatChoiceOption, type QChatErrorShape, type QChatMessageRecord, type QChatPerformanceRecord, type QChatProductCardNode, type QChatProductCollectionNode, type QChatRequestMetadata, type QChatRole, type QChatRunInput, type QChatStatusNode, type QChatToolDescriptor, type QChatUIDocument, type QChatUIDocumentInput, type QChatUINode, type QChatUsage, qChatChoiceOptionSchema, qChatProductCardSchema, qChatProductCollectionSchema, qChatStatusSchema, qChatUIDocumentSchema };
+declare const qChatProductVariantSchema: z.ZodObject<{
+    id: z.ZodString;
+    color: z.ZodString;
+    size: z.ZodString;
+    price: z.ZodObject<{
+        amount: z.ZodNumber;
+        currency: z.ZodEffects<z.ZodString, string, string>;
+    }, "strict", z.ZodTypeAny, {
+        amount: number;
+        currency: string;
+    }, {
+        amount: number;
+        currency: string;
+    }>;
+    available: z.ZodBoolean;
+    image: z.ZodOptional<z.ZodObject<{
+        src: z.ZodEffects<z.ZodString, string, string>;
+        alt: z.ZodString;
+    }, "strict", z.ZodTypeAny, {
+        src: string;
+        alt: string;
+    }, {
+        src: string;
+        alt: string;
+    }>>;
+}, "strict", z.ZodTypeAny, {
+    color: string;
+    id: string;
+    price: {
+        amount: number;
+        currency: string;
+    };
+    size: string;
+    available: boolean;
+    image?: {
+        src: string;
+        alt: string;
+    } | undefined;
+}, {
+    color: string;
+    id: string;
+    price: {
+        amount: number;
+        currency: string;
+    };
+    size: string;
+    available: boolean;
+    image?: {
+        src: string;
+        alt: string;
+    } | undefined;
+}>;
+/** Parse catalog facts before supplying them to QChatConfig. */
+declare function createQChatProductVariantCatalog(value: unknown): QChatProductVariantCatalog;
+
+export { type QChatAction, type QChatActionResult, type QChatAgentEvent, type QChatChoiceOption, type QChatErrorShape, type QChatInfoCardNode, type QChatMessageAttachment, type QChatMessageRecord, type QChatPerformanceRecord, type QChatProductCardNode, type QChatProductCollectionNode, type QChatProductVariant, type QChatProductVariantCatalog, type QChatRequestMetadata, type QChatRole, type QChatRunInput, type QChatStatusNode, type QChatToolDescriptor, type QChatUIDocument, type QChatUIDocumentInput, type QChatUINode, type QChatUsage, createQChatProductVariantCatalog, qChatChoiceOptionSchema, qChatInfoCardSchema, qChatProductCardSchema, qChatProductCollectionSchema, qChatProductVariantSchema, qChatStatusSchema, qChatUIDocumentSchema };

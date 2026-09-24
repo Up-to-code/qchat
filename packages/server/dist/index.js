@@ -32,14 +32,11 @@ var __asyncGenerator = (__this, __arguments, generator) => {
 };
 var __forAwait = (obj, it, method) => (it = obj[__knownSymbol("asyncIterator")]) ? it.call(obj) : (obj = obj[__knownSymbol("iterator")](), it = {}, method = (key, fn) => (fn = obj[key]) && (it[key] = (arg) => new Promise((yes, no, done) => (arg = fn.call(obj, arg), done = arg.done, Promise.resolve(arg.value).then((value) => yes({ value, done }), no)))), method("next"), method("return"), it);
 
-// src/index.ts
-import "server-only";
-
 // src/prompt/qchat-system-prompt.ts
 var QCHAT_SYSTEM_PROMPT = `You are operating inside QChat's generative UI environment.
-When a compact interactive commerce interface is more useful than prose, emit one complete TOON document through the UI channel. The decoded object must match QChat UI schema version 1.
-Allowed nodes: product-collection, product-card, and status. Allowed actions: product.select, product.add, product.open.
-Never emit JSX, HTML, CSS, JavaScript, component imports, event handlers, secrets, or executable code. Never choose visual theme values. Titles are at most 100 characters, descriptions 280, collections 12 products, tags 6, options 12. Use stable unique IDs. UI is optional; ordinary prose is valid when it is clearer.`;
+When a compact validated interface is more useful than prose, emit one complete TOON document through the UI channel. The decoded object must match QChat UI schema version 1.
+Allowed nodes: product-collection, product-card, info-card, and status. Allowed actions: product.select, product.add, product.open.
+Never emit JSX, HTML, CSS, JavaScript, component imports, event handlers, secrets, or executable code. Never choose visual theme values. Titles are at most 100 characters, product descriptions 280, info-card descriptions 500, collections 12 products, tags 6, options 12. Use stable unique IDs. UI is optional; ordinary prose is valid when it is clearer.`;
 function normalizeCustomPrompt(value) {
   if (value === void 0) return void 0;
   const normalized = value.normalize("NFC").trim();
@@ -101,7 +98,7 @@ function createQChatServer(config) {
   const timeoutMs = (_c = config.timeoutMs) != null ? _c : 6e4;
   function run(request) {
     return __asyncGenerator(this, null, function* () {
-      var _a2, _b2, _c2;
+      var _a2, _b2, _c2, _d;
       const runStarted = performance.now();
       let attempt = 0;
       let diagnostics = [];
@@ -114,13 +111,15 @@ function createQChatServer(config) {
           return controller.abort((_a3 = request.signal) == null ? void 0 : _a3.reason);
         };
         (_a2 = request.signal) == null ? void 0 : _a2.addEventListener("abort", relay, { once: true });
+        if ((_b2 = request.signal) == null ? void 0 : _b2.aborted) relay();
         const timeout = setTimeout(() => controller.abort(new Error("QChat run timed out")), timeoutMs);
         let toon = "";
         let sawUi = false;
         try {
           try {
-            for (var iter = __forAwait(config.adapter.run(__spreadValues({ messages: request.messages, tools: (_b2 = config.tools) != null ? _b2 : [], systemPrompt, metadata: request.metadata, signal: controller.signal }, attempt > 0 ? { repair: { attempt, diagnostics } } : {}))), more, temp, error; more = !(temp = yield new __await(iter.next())).done; more = false) {
+            for (var iter = __forAwait(config.adapter.run(__spreadValues({ messages: request.messages, tools: (_c2 = config.tools) != null ? _c2 : [], systemPrompt, metadata: request.metadata, signal: controller.signal }, attempt > 0 ? { repair: { attempt, diagnostics } } : {}))), more, temp, error; more = !(temp = yield new __await(iter.next())).done; more = false) {
               const event = temp.value;
+              if (controller.signal.aborted) throw new DOMException("Aborted", "AbortError");
               if (!sawFirstEvent) {
                 sawFirstEvent = true;
                 yield new __await(record("qchat.first_event", performance.now() - runStarted, request.metadata.runId, config));
@@ -133,6 +132,7 @@ function createQChatServer(config) {
               }
               if (event.type === "ui.delta") {
                 toon += event.delta;
+                if (new TextEncoder().encode(toon).byteLength > limits.maxDocumentBytes) throw new Error("UI stream exceeds document byte limit");
                 if (!sawFirstUiByte) {
                   sawFirstUiByte = true;
                   yield new __await(record("qchat.first_ui_byte", performance.now() - runStarted, request.metadata.runId, config));
@@ -184,7 +184,7 @@ function createQChatServer(config) {
           return;
         } finally {
           clearTimeout(timeout);
-          (_c2 = request.signal) == null ? void 0 : _c2.removeEventListener("abort", relay);
+          (_d = request.signal) == null ? void 0 : _d.removeEventListener("abort", relay);
         }
         attempt += 1;
       }
@@ -201,7 +201,10 @@ function createQChatServer(config) {
 async function record(name, durationMs, runId, config) {
   var _a;
   const item = { name, durationMs, runId, timestamp: now() };
-  await ((_a = config.telemetry) == null ? void 0 : _a.record(item));
+  try {
+    await ((_a = config.telemetry) == null ? void 0 : _a.record(item));
+  } catch (e) {
+  }
 }
 export {
   QCHAT_SYSTEM_PROMPT,

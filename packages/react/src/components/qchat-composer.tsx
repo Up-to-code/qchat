@@ -1,3 +1,30 @@
 "use client";
-import { ArrowUp,AudioLines,ChevronDown,Globe,Image,Paperclip,Plus,Square,Sparkles } from "lucide-react";import { useEffect,useRef,useState } from "react";import { useQChatComposer } from "../provider/qchat-provider";
-export function QChatComposer(){const {draft,setDraft,submit,cancel,status}=useQChatComposer();const ref=useRef<HTMLTextAreaElement>(null);const [menu,setMenu]=useState(false);useEffect(()=>{const node=ref.current;if(node){node.style.height="0px";node.style.height=`${Math.min(node.scrollHeight,180)}px`}},[draft]);return <form className="qchat-composer" onSubmit={(event)=>{event.preventDefault();void submit()}}><textarea ref={ref} value={draft} onChange={(event)=>setDraft(event.target.value)} onKeyDown={(event)=>{if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();void submit()}}} placeholder="Ask QChat to compare products…" aria-label="Message QChat" rows={1}/><div className="qchat-composer-toolbar"><div className="qchat-toolbar-group"><div className="qchat-menu-wrap"><button type="button" aria-label="Add context" aria-expanded={menu} onClick={()=>setMenu(!menu)}><Plus size={19}/></button>{menu&&<div className="qchat-menu"><button type="button"><Paperclip size={15}/>Attach a file</button><button type="button"><Image size={15}/>Add an image</button></div>}</div><button type="button" aria-label="Search the web"><Globe size={17}/></button><button type="button" aria-label="Voice input"><AudioLines size={18}/></button></div><div className="qchat-toolbar-group"><button className="qchat-model" type="button"><Sparkles size={15}/>Balanced<ChevronDown size={14}/></button><button className="qchat-send" type={status==="running"?"button":"submit"} aria-label={status==="running"?"Stop generation":"Send message"} onClick={status==="running"?cancel:undefined} disabled={status!=="running"&&!draft.trim()}>{status==="running"?<Square size={15} fill="currentColor"/>:<ArrowUp size={18}/>}</button></div></div></form>}
+import { ArrowUp, Plus, Square } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useQChatComposer } from "../provider/qchat-provider";
+
+export interface QChatComposerProps {
+  readonly suggestions?: readonly string[];
+  readonly agentLabel?: string;
+}
+
+export function QChatComposer({ suggestions = [], agentLabel }: QChatComposerProps) {
+  const { draft, setDraft, submit, cancel, status } = useQChatComposer();
+  const input = useRef<HTMLTextAreaElement>(null);
+  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const running = status === "running";
+  useEffect(() => {
+    const node = input.current;
+    if (!node) return;
+    node.style.height = "0px";
+    node.style.height = `${Math.min(node.scrollHeight, 200)}px`;
+  }, [draft]);
+  return <form className="qchat-composer" onSubmit={(event) => { event.preventDefault(); if (!running) void submit(); }}>
+    {suggestionsOpen && <div className="qchat-suggestions" role="group" aria-label="Suggested prompts">{suggestions.map((suggestion) => <button key={suggestion} type="button" onClick={() => { setDraft(suggestion); setSuggestionsOpen(false); input.current?.focus(); }}>{suggestion}</button>)}</div>}
+    <textarea ref={input} value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === "Escape") setSuggestionsOpen(false); if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); if (!running) void submit(); } }} placeholder="Ask anything" aria-label="Message QChat" rows={1}/>
+    <div className="qchat-composer-toolbar">
+      <div className="qchat-composer-actions">{suggestions.length > 0 && <button type="button" className="qchat-add" aria-label="Suggested prompts" aria-expanded={suggestionsOpen} onClick={() => setSuggestionsOpen((open) => !open)}><Plus size={17}/></button>}{agentLabel && <span className="qchat-agent-label">{agentLabel}</span>}</div>
+      <button className="qchat-send" type={running ? "button" : "submit"} aria-label={running ? "Stop generation" : "Send message"} onClick={running ? cancel : undefined} disabled={!running && !draft.trim()}>{running ? <Square size={14} fill="currentColor"/> : <ArrowUp size={18}/>}</button>
+    </div>
+  </form>;
+}

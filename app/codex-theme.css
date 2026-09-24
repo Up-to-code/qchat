@@ -1,0 +1,240 @@
+body{background:#171719;color:#ececee;color-scheme:dark}
+.showcase-shell{display:block;height:100dvh;min-height:0;overflow:hidden;background:#171719}
+.showcase-main{height:100dvh;min-height:0;display:grid;grid-template-rows:56px minmax(0,1fr);overflow:hidden}
+.showcase-header{height:56px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2c2c2f;background:#171719;backdrop-filter:none}
+.showcase-header h1{margin:0;font-size:14px;line-height:1;font-weight:600;letter-spacing:0;color:#e8e8eb}
+.showcase-header h1 span{font-size:12px;font-weight:400;color:#86868c;margin-left:7px}
+.showcase-header-status{display:flex;align-items:center;gap:7px;color:#96969b;font-size:11px}
+.showcase-header-status i{width:6px;height:6px;border-radius:50%;background:#56b978}
+.showcase-stage{height:100%;min-height:0;overflow:hidden}
+.showcase-stage .qchat-root{height:100%;min-height:0;--qchat-accent:#f2f2f3!important;--qchat-bg:#171719!important;--qchat-surface:#232326!important;--qchat-radius:16px!important;background:#171719}
+.showcase-stage .qchat-thread{scrollbar-color:#39393d transparent}
+.showcase-stage .qchat-thread-inner{width:min(730px,100%);padding:30px 24px 24px;gap:18px}
+.showcase-stage .qchat-message{max-width:78%;gap:5px}
+.showcase-stage .qchat-meta{font-size:11px;color:#8e8e94}
+.showcase-stage .qchat-meta span{font-weight:500;color:#a8a8ad}
+.showcase-stage .qchat-bubble{padding:10px 13px;font-size:14px;line-height:1.44;border-radius:14px;box-shadow:none}
+.showcase-stage .is-assistant .qchat-bubble{background:#252527;color:#e9e9eb;border-bottom-left-radius:5px}
+.showcase-stage .is-user .qchat-bubble{background:#2d2d30;color:#f0f0f1;border-bottom-right-radius:5px}
+.showcase-stage .qchat-read{font-size:10px;color:#77777d}
+.showcase-stage .qchat-thinking,.showcase-stage .qchat-tools{border:1px solid #343438;background:#202023;box-shadow:none}
+.showcase-stage .qchat-generated{border:1px solid #343438;background:#1c1c1e;box-shadow:none}
+.showcase-stage .qchat-product{background:#242427;border-color:#38383d;box-shadow:none}
+.showcase-stage .qchat-product:first-child>img[src*="photo-1542291026"]{filter:hue-rotate(225deg)}
+.showcase-stage .qchat-composer{width:min(730px,calc(100% - 32px));margin:0 auto 16px;padding:14px 15px 12px;border:1px solid #39393d;border-radius:20px;background:#252527;box-shadow:none;backdrop-filter:none}
+.showcase-stage .qchat-composer:focus-within{border-color:#56565c;box-shadow:none}
+.showcase-stage .qchat-composer textarea{min-height:42px;padding:0 2px 8px;font-size:14px;color:#f0f0f1;line-height:1.45}
+.showcase-stage .qchat-composer textarea::placeholder{color:#929298}
+.showcase-stage .qchat-composer-toolbar{min-height:30px;justify-content:space-between}
+.showcase-stage .qchat-composer-actions{display:flex;align-items:center;gap:10px}
+.showcase-stage .qchat-add{width:30px;height:30px;min-width:30px;border:0;border-radius:50%;background:transparent;color:#b6b6bc}
+.showcase-stage .qchat-add:hover{background:#38383c}
+.showcase-stage .qchat-agent-label{font-size:11px;color:#9c9ca2}
+.showcase-stage .qchat-send{width:32px;height:32px;min-width:32px;border-radius:50%;background:#ececee;color:#252527}
+.showcase-stage .qchat-send:disabled{background:#38383c;color:#77777d}
+.showcase-stage .qchat-suggestions{position:absolute;left:0;right:0;bottom:calc(100% + 8px);padding:6px;background:#252527;border:1px solid #39393d;border-radius:13px;box-shadow:none}
+.showcase-stage .qchat-suggestions button{display:block;width:100%;padding:9px 11px;border:0;border-radius:8px;text-align:left;background:transparent;color:#e5e5e7;font:inherit;font-size:12px}
+.showcase-stage .qchat-suggestions button:hover,.showcase-stage .qchat-suggestions button:focus-visible{background:#38383c}
+@media(max-width:700px){.showcase-header{padding:0 16px}.showcase-stage .qchat-thread-inner{padding:26px 17px 20px}.showcase-stage .qchat-message{max-width:86%}.showcase-stage .qchat-composer{width:calc(100% - 24px);margin-bottom:12px}}
+@media(prefers-reduced-motion:reduce){.showcase-stage .qchat-bubble,.showcase-stage .qchat-product,.showcase-stage .qchat-generated{animation:none}}
+.elements-tool-list{align-self:flex-start;width:min(100%,520px)}.elements-tool-list [data-slot="collapsible"]{margin:0;border-color:#36363a;border-radius:12px;background:#222225;box-shadow:none}.elements-tool-list [data-slot="collapsible-trigger"]{padding:10px 12px;color:#bdbdc2}.elements-tool-list [data-slot="collapsible-trigger"]:hover{background:#29292c}.elements-tool-list [data-slot="collapsible-content"]{padding:0 12px 12px;color:#aaaab0}.elements-tool-summary{margin:0;padding-top:9px;border-top:1px solid #35353a;font-size:12px}
+.showcase-stage .elements-message{width:auto;max-width:78%;gap:5px;align-self:flex-start}.showcase-stage .elements-message.is-user{align-self:flex-end}.showcase-stage .elements-message-content{background:#252527;color:#e9e9eb;border-radius:14px 14px 14px 5px;padding:10px 13px;line-height:1.44;box-shadow:none}.showcase-stage .elements-message.is-user .elements-message-content{margin-left:0;background:#2d2d30;color:#f0f0f1;border-radius:14px 14px 5px 14px}.showcase-stage .elements-message.is-user .qchat-meta,.showcase-stage .elements-message.is-user .qchat-read{align-self:flex-end}.showcase-stage .elements-message .qchat-meta{font-size:11px}.showcase-stage .elements-message-content p{margin:0}.showcase-stage .elements-reasoning{align-self:flex-start;width:min(100%,520px);border:1px solid #36363a;border-radius:12px;background:#222225;padding:10px 12px}.showcase-stage .elements-reasoning [data-slot="collapsible-trigger"]{width:100%;display:flex;align-items:center;gap:8px;color:#bdbdc2}.showcase-stage .elements-thinking-time{margin-left:auto;font-variant-numeric:tabular-nums;font-size:11px;color:#8f8f96}.showcase-stage .elements-reasoning [data-slot="collapsible-content"]{color:#9e9ea5}
+.elements-composer-wrap{position:relative;flex:none;width:min(730px,calc(100% - 32px));margin:0 auto 16px}.elements-composer [data-slot="input-group"]{border:1px solid #39393d;border-radius:20px;background:#252527;box-shadow:none}.elements-composer [data-slot="input-group"]:focus-within{border-color:#56565c;box-shadow:none;outline:none}.elements-composer [data-slot="input-group-control"]{min-height:58px;max-height:200px;padding:14px 17px 4px;background:transparent;color:#f0f0f1;font-size:14px;box-shadow:none}.elements-composer [data-slot="input-group-control"]::placeholder{color:#929298}.elements-composer [data-slot="input-group-addon"]{padding:3px 12px 10px;color:#a0a0a6}.elements-composer [data-slot="input-group-button"]{box-shadow:none}.elements-composer [data-slot="input-group-button"][type="submit"],.elements-composer [data-slot="input-group-button"][aria-label="Stop"]{border-radius:50%;background:#ececee;color:#252527}.elements-composer [data-slot="input-group-button"]:disabled{background:#38383c;color:#77777d}.elements-examples{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:20;padding:6px;border:1px solid #39393d;border-radius:13px;background:#252527}.elements-examples button{display:block;width:100%;padding:9px 11px;border:0;border-radius:8px;background:transparent;color:#e5e5e7;text-align:left;font-size:12px}.elements-examples button:hover,.elements-examples button:focus-visible{background:#38383c}
+@media(max-width:700px){.showcase-stage .elements-message{max-width:86%}.elements-composer-wrap{width:calc(100% - 24px);margin-bottom:12px}}
+
+/* Compact transcript: a single disclosure owns reasoning and tool steps. */
+.showcase-stage .elements-reasoning{width:min(100%,520px);margin:0;padding:0;border:0;border-radius:0;background:transparent}
+.showcase-stage .elements-reasoning [data-slot="collapsible-trigger"]{width:auto;gap:7px;padding:3px 0;color:#aaaab0;font-size:12px}
+.showcase-stage .elements-reasoning [data-slot="collapsible-trigger"] svg:first-child{color:#8f8f95}
+.showcase-stage .elements-reasoning [data-slot="collapsible-trigger"] svg:last-child{opacity:.65;transition:transform .18s ease}
+.showcase-stage .elements-reasoning [data-slot="collapsible-trigger"][data-state="open"] svg:last-child{transform:rotate(180deg)}
+.elements-thinking-content{margin:8px 0 0 7px;padding:2px 0 2px 17px;border-left:1px solid #3b3b3e;color:#a5a5aa;font-size:12px}
+.elements-thinking-content p{margin:0}
+.elements-thinking-steps{list-style:none;display:grid;gap:9px;margin:0;padding:0}
+.elements-thinking-steps li{display:flex;gap:9px;line-height:1.3}
+.elements-thinking-steps strong{display:block;color:#d0d0d3;font-weight:500}
+.elements-thinking-steps small{display:block;margin-top:2px;color:#818187;font-size:11px}
+.elements-step-mark{width:12px;flex:none;color:#8a8a90}
+
+/* Generated commerce is a quiet content rail, not a stack of panels. */
+.showcase-stage .qchat-generated{padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+.showcase-stage .qchat-collection-header{margin-bottom:10px}
+.showcase-stage .qchat-collection-header h3{font-size:13px;font-weight:500;color:#b7b7bc}
+.showcase-stage .qchat-product{border:0;border-radius:0;background:transparent;box-shadow:none}
+.showcase-stage .qchat-product>img{height:175px;border-radius:12px;background:#262629}
+.showcase-stage .qchat-product-body{padding:12px 1px 2px}
+.showcase-stage .qchat-tags span{padding:0;background:transparent;color:#85858b;font-size:10px}
+.showcase-stage .qchat-product-heading h4{font-size:14px;font-weight:600}
+.showcase-stage .qchat-product-heading strong{font-size:13px;font-weight:500}
+.showcase-stage .qchat-product-body>p{color:#929298;font-size:12px}
+.showcase-stage .qchat-choice button{border-color:#3a3a3d;background:transparent}
+.showcase-stage .qchat-product-actions button{min-height:32px;border-radius:8px;font-size:12px;font-weight:600}
+.showcase-stage .qchat-product-actions .secondary{background:transparent;border:1px solid #3a3a3d}
+.showcase-stage .qchat-collection-controls button{background:transparent;border-color:#38383b}
+
+/* Composer surface follows host theme tokens rather than a hard-coded blue. */
+.showcase-stage .qchat-root{--qchat-composer-bg:#29292c;--qchat-composer-border:#3d3d41}
+.elements-composer-wrap{width:min(730px,calc(100% - 48px));margin-bottom:18px}
+.elements-composer [data-slot="input-group"]{border-color:var(--qchat-composer-border);border-radius:21px;background:var(--qchat-composer-bg);transition:border-color .18s ease,background-color .18s ease}
+.elements-composer [data-slot="input-group"]:focus-within{border-color:#68686e;background:#2c2c2f}
+.elements-composer [data-slot="input-group-control"]{min-height:64px;padding:17px 16px 8px;font-size:14px}
+.elements-composer [data-slot="input-group-addon"]{padding:1px 10px 10px}
+.elements-composer [data-slot="input-group-button"]{border-radius:50%;color:#c6c6ca}
+.elements-composer [data-slot="input-group-button"]:hover{background:#39393d}
+.elements-composer .qchat-agent-label{font-size:12px;color:#c4c4c9}
+.elements-composer-end{display:flex;align-items:center;gap:7px}
+.elements-composer-end [aria-pressed="true"]{color:#eaeaec;background:#48484d}
+.elements-examples{border-color:#414145;background:#29292c;box-shadow:0 14px 34px #0007}
+.qchat-host-view{align-self:stretch}
+.showcase-header-right{display:flex;align-items:center;gap:18px}
+.showcase-header-right>button{border:0;background:transparent;color:#a9a9af;font-size:11px;cursor:pointer}
+.showcase-header-right>button:hover,.showcase-header-right>button:focus-visible{color:#f2f2f3;text-decoration:underline}
+.showcase-host-email{max-width:520px;padding:18px 0;border-top:1px solid #3b3b3d;border-bottom:1px solid #3b3b3d}
+.showcase-host-email>span{color:#85858b;font-size:10px;letter-spacing:.1em}
+.showcase-host-email h3{margin:10px 0 6px;font-size:18px;font-weight:600}
+.showcase-host-email p{margin:0 0 12px;color:#b6b6bb;font-size:13px}
+.showcase-host-email small{color:#85858b;font-size:11px}
+.showcase-stage .qchat-collection>.horizontal{grid-auto-columns:270px;gap:16px;padding-bottom:3px;scrollbar-width:none;overscroll-behavior-x:contain}
+.showcase-stage .qchat-collection>.horizontal::-webkit-scrollbar{display:none}
+.showcase-stage .qchat-product>img{height:180px}
+.showcase-stage .qchat-product-body{gap:0;padding-top:13px}
+.showcase-stage .qchat-product-heading{gap:8px;align-items:baseline}
+.showcase-stage .qchat-product-heading strong{white-space:nowrap}
+.showcase-stage .qchat-product-body>p{min-height:52px;margin:7px 0 3px;line-height:1.45}
+.showcase-stage .qchat-choice{margin:9px 0}
+.showcase-stage .qchat-choice legend{margin-bottom:7px}
+.showcase-stage .qchat-choice>div{gap:6px}
+.showcase-stage .qchat-product-actions{gap:8px;padding-top:12px}
+.showcase-stage .qchat-product-actions button{min-width:0;min-height:35px;padding:0 8px;white-space:nowrap}
+.showcase-stage .qchat-product-actions .secondary{flex:0 0 auto;padding:0 10px;color:#babac0}
+.showcase-stage .qchat-product-actions button:hover{filter:brightness(1.1)}
+.showcase-stage .qchat-collection-controls button{width:30px;height:30px;border-radius:9px}
+.showcase-stage .qchat-collection-controls button:hover:not(:disabled){background:#333336}
+@media(max-width:700px){.elements-composer-wrap{width:calc(100% - 24px);margin-bottom:12px}.showcase-stage .qchat-product>img{height:155px}}
+@media(prefers-reduced-motion:reduce){.elements-composer [data-slot="input-group"],.showcase-stage .elements-reasoning [data-slot="collapsible-trigger"] svg{transition:none}}
+
+/* The host config defines the palette and an 8px spacing unit. */
+.showcase-stage .qchat-thread-inner{gap:calc(var(--qchat-space,8px)*2)}
+.showcase-stage .qchat-collection-header{margin-bottom:var(--qchat-space,8px)}
+.showcase-stage .qchat-collection>.horizontal{gap:var(--qchat-rail-gap,16px)}
+.showcase-stage .qchat-product-body{padding-top:calc(var(--qchat-space,8px)*1.5)}
+.showcase-stage .qchat-product-body>p{margin:var(--qchat-space,8px) 0 0}
+.showcase-stage .qchat-choice{margin:var(--qchat-space,8px) 0}
+.showcase-stage .qchat-choice legend{margin-bottom:var(--qchat-space,8px)}
+.showcase-stage .qchat-choice>div,.showcase-stage .qchat-product-actions{gap:var(--qchat-space,8px)}
+.showcase-stage .qchat-product-actions{padding-top:calc(var(--qchat-space,8px)*1.5)}
+.elements-composer [data-slot="input-group"]{background:var(--qchat-composer-bg,#29292c);border-color:var(--qchat-composer-border,#3d3d41)}
+.elements-composer [data-slot="input-group-control"]{padding:calc(var(--qchat-space,8px)*2) calc(var(--qchat-space,8px)*2) var(--qchat-space,8px)}
+.elements-composer [data-slot="input-group-addon"]{padding:0 var(--qchat-space,8px) var(--qchat-space,8px)}
+.elements-composer-end{gap:var(--qchat-space,8px)}
+.elements-composer .elements-primary-action[data-slot="button"]{position:relative;display:grid;place-items:center;width:36px;min-width:36px;height:36px;padding:0;border:0;border-radius:50%;background:var(--qchat-control-bg,#f1f1f2);color:var(--qchat-control-fg,#202023);cursor:pointer;transition:transform .16s ease,background-color .16s ease}
+.elements-composer .elements-primary-action[data-slot="button"]:hover:not(:disabled){background:#fff;transform:scale(1.04)}
+.elements-composer .elements-primary-action[data-slot="button"]:active:not(:disabled){transform:scale(.95)}
+.elements-composer .elements-primary-action[data-slot="button"]:focus-visible{outline:2px solid #94b9ff;outline-offset:2px}
+.elements-composer .elements-primary-action[data-slot="button"]:disabled{background:#3b3b3f;color:#86868c;cursor:not-allowed}
+.elements-composer .elements-primary-action.is-running[data-slot="button"]{background:#e9e9eb;color:#28282a}
+.elements-loading-ring{position:absolute;inset:4px;animation:qchat-spin 1s linear infinite;color:#8d8d93}
+.elements-primary-action.is-running svg:last-child{position:relative}
+.elements-voice-status{display:flex;align-items:center;gap:var(--qchat-space,8px);margin:0 calc(var(--qchat-space,8px)*2) var(--qchat-space,8px);padding:var(--qchat-space,8px) 0;border-top:1px solid #414145;color:#d0d0d3;font-size:12px}
+.elements-voice-status>span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#3d3d42}
+.elements-voice-status>span.is-listening,.elements-voice-status>span.is-speaking{animation:qchat-voice-pulse 1.2s ease-in-out infinite}
+.elements-voice-status>button{display:grid;place-items:center;margin-left:auto;padding:4px;border:0;border-radius:6px;background:transparent;color:#a9a9ae;cursor:pointer}
+.elements-voice-status>button:hover{background:#424247;color:#fff}
+.elements-voice-error{margin:var(--qchat-space,8px) 0 0;color:#ffb6bd;font-size:11px}
+@keyframes qchat-voice-pulse{50%{transform:scale(1.12);background:#5e5e65}}
+@media(prefers-reduced-motion:reduce){.elements-composer .elements-primary-action[data-slot="input-group-button"]{transition:none}.elements-loading-ring,.elements-voice-status>span{animation:none!important}}
+.elements-composer-wrap{z-index:12}
+.elements-language{max-width:86px;padding:5px 2px;border:0;background:transparent;color:#aaaab0;font:inherit;font-size:11px;outline-offset:2px;cursor:pointer}
+.elements-language option{background:#29292c;color:#ececee}
+.elements-composer textarea[dir="rtl"]{text-align:right}
+.elements-images{display:flex;gap:8px;padding:10px 12px 0;overflow-x:auto}
+.elements-image{position:relative;flex:none;width:62px;height:62px;border-radius:10px;overflow:hidden;background:#171719}
+.elements-image img{width:100%;height:100%;object-fit:cover}
+.elements-image button{position:absolute;top:3px;right:3px;display:grid;place-items:center;width:20px;height:20px;border:0;border-radius:50%;background:#171719d9;color:white;cursor:pointer}
+.elements-images{direction:inherit;justify-content:flex-start}
+.elements-composer [data-slot="input-group"]{display:flex;flex-direction:column;align-items:stretch}
+.elements-images{box-sizing:border-box;width:100%;max-width:100%;align-self:stretch;flex:none;direction:inherit;justify-content:flex-start}
+.elements-composer[dir="rtl"] .elements-images,.showcase-stage .qchat-root[dir="rtl"] .elements-images{direction:rtl}
+.elements-composer[dir="ltr"] .elements-images,.showcase-stage .qchat-root[dir="ltr"] .elements-images{direction:ltr}
+.elements-composer .qchat-drop-active{border-color:#a9b9ff!important;box-shadow:0 0 0 3px #8b9fff24!important}
+.qchat-drop-overlay{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;gap:9px;border:1px dashed #b5c2ff;border-radius:19px;background:#252733ed;color:#dce2ff;font-size:13px;pointer-events:none}
+.qchat-drop-overlay svg{animation:qchat-drop-lift .9s ease-in-out infinite alternate}
+@keyframes qchat-drop-lift{to{transform:translateY(-5px)}}
+@media(prefers-reduced-motion:reduce){.qchat-drop-overlay svg{animation:none}}
+.elements-image-overflow{display:grid;place-items:center;border:1px solid #47474b;color:#d9d9dc;font-size:13px}
+.elements-file-label{display:block;padding:22px 5px 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+.elements-upload-progress{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:2px;flex-direction:column;background:#151518ba;color:white}
+.elements-upload-progress svg{animation:elements-upload-spin 1s linear infinite}
+.elements-upload-progress small{font-size:10px}
+.elements-upload-error{position:absolute;inset:0;display:grid;place-items:center;background:#351b1bc9;color:#ff8e8e}
+@keyframes elements-upload-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.elements-upload-progress svg{animation:none}}
+.elements-voice-stage{position:absolute;inset:56px 0 112px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:transparent;pointer-events:none}
+.elements-voice-orb{border-radius:50%;background:radial-gradient(circle at 70% 84%,#f9fbff 0%,#d8e3ff 24%,var(--qchat-voice-accent,#7377ff) 76%);box-shadow:0 0 38px #7377ff18}
+.elements-voice-stage p{margin:0;color:#929299;font-size:12px;letter-spacing:.04em}
+.elements-voice-stage a{pointer-events:auto;color:#696970;font-size:10px;text-decoration:none}
+.elements-voice-stage a:hover{text-decoration:underline;color:#a5a5ae}
+.elements-voice-finish{pointer-events:auto;padding:7px 12px;border:1px solid #7377ff66;border-radius:9px;background:#2b2b35;color:#f2f2f5;cursor:pointer}
+.elements-input-meter{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--qchat-muted);font-size:11px}.elements-input-meter meter{width:160px;height:6px;accent-color:var(--qchat-voice-accent)}
+.showcase-stage .qchat-status{padding:4px 0 4px 12px;border-left:2px solid #4a4a4f;border-radius:0;background:transparent}
+.showcase-stage .qchat-status strong{font-size:13px;font-weight:600;color:#d5d5d8}
+.showcase-stage .qchat-status p{margin:4px 0 0;color:#929298;font-size:12px}
+.showcase-stage .qchat-choice button:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.showcase-stage .qchat-product-actions button:disabled{background:#3a3a3e;color:#85858b;cursor:not-allowed;filter:none}
+.showcase-stage .qchat-variant-hint{margin-top:2px;color:#85858b;font-size:11px}
+@media(prefers-reduced-motion:reduce){.elements-voice-orb{animation:none}}
+
+/* Shared host palette: navbar, transcript, composer, and skeleton read one config. */
+.showcase-shell,.showcase-header,.showcase-stage .qchat-root{background:var(--showcase-bg,#1c1c1e)!important;color:var(--showcase-fg,#ececee)}
+.showcase-stage .elements-message-content,.showcase-stage .is-assistant .qchat-bubble{background:var(--qchat-surface,#252527);color:var(--qchat-fg,#ececee)}
+.showcase-stage .qchat-meta,.showcase-stage .qchat-collection-header h3,.showcase-stage .qchat-product-body>p{color:var(--qchat-muted,#96969b)}
+.showcase-header-right{gap:12px}
+.showcase-mode{display:flex;gap:2px;padding:3px;border:1px solid color-mix(in srgb,var(--showcase-fg) 12%,transparent);border-radius:10px;background:var(--showcase-surface)}
+.showcase-mode button{padding:5px 9px;border:0;border-radius:7px;background:transparent;color:var(--showcase-muted);font:inherit;font-size:11px;cursor:pointer}
+.showcase-mode button[aria-pressed="true"]{background:color-mix(in srgb,var(--showcase-fg) 11%,transparent);color:var(--showcase-fg)}
+.showcase-mode button:disabled{opacity:.45;cursor:not-allowed}
+.showcase-language-wrap{position:relative}
+.showcase-language-trigger{display:flex;align-items:center;gap:5px;padding:6px 8px;border:1px solid color-mix(in srgb,var(--showcase-fg) 12%,transparent);border-radius:9px;background:var(--showcase-surface);color:var(--showcase-fg);font:inherit;font-size:11px;cursor:pointer}
+.showcase-language-menu{position:absolute;right:0;top:calc(100% + 7px);z-index:30;min-width:126px;padding:4px;border:1px solid color-mix(in srgb,var(--showcase-fg) 14%,transparent);border-radius:10px;background:var(--showcase-surface);box-shadow:0 12px 24px #0005}
+.showcase-language-menu button{display:block;width:100%;padding:8px 10px;border:0;border-radius:6px;background:transparent;color:var(--showcase-fg);text-align:start;font:inherit;font-size:12px;cursor:pointer}
+.showcase-language-menu button:hover,.showcase-language-menu button[aria-pressed="true"]{background:color-mix(in srgb,var(--showcase-fg) 10%,transparent)}
+.showcase-language-menu button{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.showcase-language-option{display:flex;flex-direction:column;gap:1px}.showcase-language-option small{color:var(--showcase-muted);font-size:10px;direction:ltr;text-align:start}
+.showcase-shell[lang^="ar"] .showcase-header{font-family:"Noto Sans Arabic",system-ui,sans-serif}
+.showcase-shell[lang^="ar"] .showcase-language-menu{right:auto;left:0}
+.showcase-shell[dir="rtl"] .showcase-language-wrap{direction:rtl}
+.showcase-stage .qchat-ui-loading{width:100%;min-height:0;padding:0;border:0;border-radius:0;background:transparent;display:block}
+.showcase-stage .qchat-thread-inner{width:min(var(--qchat-thread-width,730px),100%);gap:var(--qchat-thread-gap,16px)}
+.showcase-stage .elements-message-content{padding:var(--qchat-message-padding,10px 13px)}
+.showcase-stage .qchat-collection>.horizontal{grid-auto-columns:var(--qchat-rail-card-width,262px);direction:inherit}
+.showcase-stage .qchat-product-body{padding:var(--qchat-product-padding,12px) 1px 2px}
+.showcase-stage .qchat-product>img{border-radius:var(--qchat-product-image-radius,12px)}
+.showcase-stage .qchat-product>img{height:var(--qchat-product-image-height,180px)}
+.showcase-stage .qchat-root[dir="rtl"] .elements-message.is-user .elements-message-content{margin-right:0}
+.showcase-stage .qchat-root[dir="rtl"] .elements-message-content{border-radius:14px 14px 5px 14px}
+.showcase-stage .qchat-root[dir="rtl"] .elements-message.is-user .elements-message-content{border-radius:14px 14px 14px 5px}
+.showcase-stage .qchat-root[dir="rtl"] .elements-thinking-content{margin-right:7px;margin-left:0;padding-right:17px;padding-left:0;border-right:1px solid #3b3b3e;border-left:0}
+.showcase-stage .elements-reasoning{width:auto;max-width:min(100%,520px);border:0;border-radius:0;background:transparent;padding:4px 0}
+.elements-message-attachments{display:flex;align-items:flex-start;gap:8px;max-width:min(100%,420px);overflow-x:auto;direction:inherit}
+.elements-message-attachment{display:flex;align-items:center;justify-content:center;min-width:64px;max-width:220px;min-height:48px;border:1px solid #44454b;border-radius:10px;background:#2b2b30;overflow:hidden;color:#d2d2d7;font-size:12px}
+.elements-message-attachment img{display:block;width:auto;max-width:220px;max-height:180px;object-fit:contain}
+.elements-message-attachment span{padding:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.showcase-stage .qchat-root[dir="rtl"] .elements-message-attachments{direction:rtl}
+.showcase-stage .elements-message{margin:0;align-items:flex-start}
+.showcase-stage .elements-message.is-user{margin-inline-start:auto;margin-inline-end:0;align-items:flex-end}
+.showcase-stage .elements-message.is-user .elements-message-content{margin:0}
+.elements-message-attachment.is-image{width:220px;max-width:100%;border:0;background:transparent;min-height:0;flex-shrink:0}
+.elements-message-attachment.is-image img{width:100%;height:auto;max-height:280px;object-fit:contain}
+.qchat-diagnostics{flex:none;width:min(730px,calc(100% - 32px));margin:0 auto 8px;color:var(--qchat-muted);font-size:11px}.qchat-diagnostics summary{cursor:pointer;padding:4px 0}.qchat-diagnostics-body{max-height:210px;overflow:auto;border-top:1px solid #414148;padding:8px 0}.qchat-diagnostics p{margin:0 0 8px}.qchat-diagnostics table{width:100%;text-align:start;border-collapse:collapse;font-variant-numeric:tabular-nums}.qchat-diagnostics th,.qchat-diagnostics td{padding:4px 8px;text-align:start}.qchat-diagnostics .is-slow{color:#d7b978}.qchat-diagnostics button{margin-top:8px;text-decoration:underline;cursor:pointer}
+.qchat-loading-heading,.qchat-loading-image,.qchat-loading-line,.qchat-loading-options i,.qchat-loading-button{background:color-mix(in srgb,var(--qchat-fg) 9%,var(--qchat-bg));background-size:200% 100%;animation:qchat-loading-pulse 1.4s ease-in-out infinite alternate}
+.qchat-loading-heading{height:14px;width:38%;margin:0 0 14px;border-radius:5px}
+.qchat-loading-card{width:min(var(--qchat-rail-card-width,262px),100%);min-width:0;display:grid;gap:var(--qchat-space,8px)}
+.qchat-loading-image{height:var(--qchat-loading-image-height,155px);border-radius:var(--qchat-product-image-radius,12px)}
+.qchat-loading-line{height:12px;width:82%;border-radius:5px}
+.qchat-loading-line.short{width:55%}
+.qchat-loading-options{display:flex;gap:var(--qchat-space,8px);margin-top:8px}
+.qchat-loading-options i{width:38px;height:24px;border-radius:14px}
+.qchat-loading-button{height:32px;margin-top:8px;border-radius:8px}
+@keyframes qchat-loading-pulse{to{opacity:.48}}
+@media(max-width:560px){.showcase-header{gap:8px;padding:0 10px}.showcase-header-right{gap:5px}.showcase-header-right>button{display:none}.showcase-mode button{padding:5px 6px}}
+@media(prefers-reduced-motion:reduce){.qchat-loading-heading,.qchat-loading-image,.qchat-loading-line,.qchat-loading-options i,.qchat-loading-button{animation:none}}

@@ -37,7 +37,7 @@ interface QChatServer {
     readonly systemPrompt: string;
 }
 
-declare const QCHAT_SYSTEM_PROMPT = "You are operating inside QChat's generative UI environment.\nWhen a compact interactive commerce interface is more useful than prose, emit one complete TOON document through the UI channel. The decoded object must match QChat UI schema version 1.\nAllowed nodes: product-collection, product-card, and status. Allowed actions: product.select, product.add, product.open.\nNever emit JSX, HTML, CSS, JavaScript, component imports, event handlers, secrets, or executable code. Never choose visual theme values. Titles are at most 100 characters, descriptions 280, collections 12 products, tags 6, options 12. Use stable unique IDs. UI is optional; ordinary prose is valid when it is clearer.";
+declare const QCHAT_SYSTEM_PROMPT = "You are operating inside QChat's generative UI environment.\nWhen a compact validated interface is more useful than prose, emit one complete TOON document through the UI channel. The decoded object must match QChat UI schema version 1.\nAllowed nodes: product-collection, product-card, info-card, and status. Allowed actions: product.select, product.add, product.open.\nNever emit JSX, HTML, CSS, JavaScript, component imports, event handlers, secrets, or executable code. Never choose visual theme values. Titles are at most 100 characters, product descriptions 280, info-card descriptions 500, collections 12 products, tags 6, options 12. Use stable unique IDs. UI is optional; ordinary prose is valid when it is clearer.";
 declare function normalizeCustomPrompt(value: string | undefined): string | undefined;
 declare function composeSystemPrompt(includeDefault: boolean, custom: string | undefined): string;
 

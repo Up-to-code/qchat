@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./codex-theme.css";
+import "@fontsource/noto-sans-arabic/arabic-400.css";
+import "@fontsource/noto-sans-arabic/arabic-500.css";
 
 export const metadata: Metadata = {
   title: "QChat — Generative UI compiler",

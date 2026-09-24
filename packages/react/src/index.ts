@@ -1,5 +1,7 @@
 export * from "./interfaces/react.interfaces";
+export * from "./localization/qchat-localization";
 export * from "./client/create-qchat-client";
+export * from "./host-view/create-qchat-host-view";
 export * from "./provider/qchat-provider";
 export * from "./components/qchat-thread";
 export * from "./components/qchat-message";

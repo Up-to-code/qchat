@@ -1,0 +1,18 @@
+import "server-only";
+import { z } from "zod";
+
+const recordSchema=z.object({id:z.string().min(1).max(80),industry:z.enum(["travel","insurance","retail"]),title:z.string().min(1).max(100),summary:z.string().min(1).max(500),keywords:z.array(z.string().min(1).max(60)).max(24),facts:z.array(z.object({label:z.string().max(64),value:z.string().max(120)})).max(8)}).strict();
+export type ShowcaseRecord=z.infer<typeof recordSchema>;
+const seeded:ShowcaseRecord[]=[
+  {id:"travel-cairo",industry:"travel",title:"Cairo city trip",summary:"A three-day Cairo itinerary with the Egyptian Museum, historic districts, and a Nile evening.",keywords:["travel","trip","cairo","egypt","itinerary","سفر","رحلة","القاهرة","مصر"],facts:[{label:"Duration",value:"3 days"},{label:"Best for",value:"Culture and food"}]},
+  {id:"travel-alex",industry:"travel",title:"Alexandria coast",summary:"A two-day coastal break with the Bibliotheca Alexandrina and Mediterranean waterfront.",keywords:["travel","trip","alexandria","coast","beach","سفر","رحلة","الإسكندرية","شاطئ"],facts:[{label:"Duration",value:"2 days"},{label:"Best for",value:"Coast and history"}]},
+  {id:"insurance-basic",industry:"insurance",title:"Essential health coverage",summary:"Illustrative plan with outpatient visits and emergency care. Coverage details require insurer confirmation.",keywords:["insurance","health","coverage","clinic","doctor","تأمين","صحي","علاج","طبيب"],facts:[{label:"Example deductible",value:"$250"},{label:"Example limit",value:"$20,000"}]},
+  {id:"insurance-family",industry:"insurance",title:"Family health coverage",summary:"Illustrative family plan with preventive care and pediatric visits. Coverage details require insurer confirmation.",keywords:["insurance","family","health","children","تأمين","عائلة","أسرة","أطفال"],facts:[{label:"Example deductible",value:"$500"},{label:"Example limit",value:"$50,000"}]},
+  {id:"retail-shoes",industry:"retail",title:"Blue running shoes",summary:"Two performance shoes with validated prices, colors, sizes, and availability from the host catalog.",keywords:["product","shoe","shoes","shop","running","blue","size","color","price","منتج","حذاء","أحذية","جري","مقاس","لون","سعر"],facts:[{label:"Range",value:"$164–$199"}]},
+];
+function tokens(value:string){return value.toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu)??[]}
+function vector(value:string){const result=new Float64Array(128);for(const token of tokens(value)){let hash=2166136261;for(const char of token)hash=Math.imul(hash^char.codePointAt(0)!,16777619);result[(hash>>>0)%result.length]!+=1}return result}
+function similarity(a:Float64Array,b:Float64Array){let dot=0,aa=0,bb=0;for(let i=0;i<a.length;i++){dot+=a[i]!*b[i]!;aa+=a[i]!*a[i]!;bb+=b[i]!*b[i]!}return aa&&bb?dot/Math.sqrt(aa*bb):0}
+/** Local, deterministic token-vector index. Hosts can replace the seeded records. */
+export function createShowcaseRetriever(records:readonly ShowcaseRecord[]=seeded){const validated=records.map((record)=>recordSchema.parse(record));const indexed=validated.map((record)=>{const source=`${record.title} ${record.summary} ${record.keywords.join(" ")}`;return {record,vector:vector(source),tokens:new Set(tokens(source))}});return {search(query:string,limit=3){const target=vector(query);const queryTokens=tokens(query);return indexed.filter(({tokens:sourceTokens})=>queryTokens.some((token)=>sourceTokens.has(token))).map(({record,vector:embedding})=>({record,score:similarity(target,embedding)})).filter((hit)=>hit.score>.07).sort((a,b)=>b.score-a.score).slice(0,Math.max(1,Math.min(8,limit)))}}}
+export const showcaseRetriever=createShowcaseRetriever();
