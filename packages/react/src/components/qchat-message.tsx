@@ -1,0 +1,3 @@
+"use client";
+import type { QChatMessageRecord } from "@qchat/core";
+export function QChatMessage({message}:{readonly message:QChatMessageRecord}){const user=message.role==="user";const time=new Date(message.createdAt).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:"UTC"});return <article className={`qchat-message ${user?"is-user":"is-assistant"}`}><div className="qchat-meta"><span>{user?"You":"QChat"}</span><time>{time}</time></div><div className="qchat-bubble">{message.content||<span className="qchat-cursor" aria-label="Response streaming"/>}</div>{user&&<span className="qchat-read">Read</span>}</article>}

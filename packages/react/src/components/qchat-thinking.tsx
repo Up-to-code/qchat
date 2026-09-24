@@ -1,0 +1,3 @@
+"use client";
+import { Brain,ChevronDown } from "lucide-react";import { useState } from "react";import { useQChatRunState } from "../provider/qchat-provider";
+export function QChatThinking(){const {reasoning}=useQChatRunState();const [open,setOpen]=useState(false);if(!reasoning)return null;return <section className="qchat-thinking"><button type="button" aria-expanded={open} onClick={()=>setOpen(!open)}><Brain size={15}/><span>{reasoning.label}</span><time>{(reasoning.elapsedMs/1000).toFixed(1)}s</time><ChevronDown size={14} className={open?"is-open":""}/></button>{open&&<p>QChat is resolving the request and validating any generated interface on the server.</p>}</section>}
