@@ -2,6 +2,7 @@ import { encode } from "@toon-format/toon";
 import { z } from "zod";
 import { createQChatServer } from "@qchat/server";
 import { showcaseAgentGraph } from "../../../server/showcase-agent-graph";
+import { guardPreviewRequest } from "../../../server/request-guard";
 import type { ShowcaseRecord } from "../../../server/showcase-retriever";
 
 export const runtime = "nodejs";
@@ -10,6 +11,8 @@ const line = (event: unknown) => new TextEncoder().encode(`${JSON.stringify(even
 
 /** Deterministic test adapter: LangGraph plans, QChat compiles; no model key required. */
 export async function POST(request: Request) {
+  const guard = guardPreviewRequest(request, 60);
+  if (guard) return guard;
   const parsed = inputSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: "Invalid messages." }, { status: 400 });
   const prompt = parsed.data.messages.at(-1)?.content ?? "";

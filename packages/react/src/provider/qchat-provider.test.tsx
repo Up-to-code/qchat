@@ -14,7 +14,7 @@ const client: QChatClient = {
 
 describe("QChatProvider", () => {
   it("sets document direction and locale font from configuration", () => {
-    const html = renderToString(createElement(QChatProvider, { client, config: { localization: { locale: "ar-EG" } }, children: createElement(QChatThread) }));
+    const html = renderToString(createElement(QChatProvider, { client, config: { localization: { locale: "ar-EG" } }},createElement(QChatThread)));
     expect(html).toContain('lang="ar-EG"');
     expect(html).toContain('dir="rtl"');
     expect(html).toContain("Noto Sans Arabic");
@@ -22,9 +22,8 @@ describe("QChatProvider", () => {
   it("renders a real thread with its hooks inside the provider", () => {
     const html = renderToString(createElement(QChatProvider, {
       client,
-      initialMessages: [{ id: "m1", role: "assistant", content: "Provider is connected", createdAt: "2026-09-24T00:00:00.000Z" }],
-      children: createElement(QChatThread),
-    }));
+      initialMessages: [{ id: "m1", role: "assistant", content: "Provider is connected", createdAt: "2026-09-24T00:00:00.000Z" }]},createElement(QChatThread)
+    ));
     expect(html).toContain("Provider is connected");
     expect(html).toContain("qchat-thread");
   });
@@ -32,9 +31,8 @@ describe("QChatProvider", () => {
   it("keeps message state separate for two provider instances", () => {
     const render = (content: string) => renderToString(createElement(QChatProvider, {
       client,
-      initialMessages: [{ id: content, role: "user", content, createdAt: "2026-09-24T00:00:00.000Z" }],
-      children: createElement(QChatThread),
-    }));
+      initialMessages: [{ id: content, role: "user", content, createdAt: "2026-09-24T00:00:00.000Z" }]},createElement(QChatThread)
+    ));
     expect(render("first conversation")).not.toContain("second conversation");
     expect(render("second conversation")).not.toContain("first conversation");
   });
@@ -51,9 +49,8 @@ describe("QChatProvider", () => {
         toolActivity: () => createElement("p", { "data-testid": "custom-tools" }, "Custom tools"),
       } },
       initialMessages: [{ id: "m2", role: "assistant", content: "Custom bubble", createdAt: "2026-09-24T00:00:00.000Z" }],
-      initialTools: [{ id: "t1", name: "search_catalog", status: "complete" }],
-      children: createElement(QChatThread),
-    }));
+      initialTools: [{ id: "t1", name: "search_catalog", status: "complete" }]},createElement(QChatThread)
+    ));
     expect(html).toContain("Custom bubble");
     expect(html).toContain("Custom tools");
     expect(html).not.toContain("qchat-message assistant");
@@ -68,9 +65,8 @@ describe("QChatProvider", () => {
     const html = renderToString(createElement(QChatProvider, {
       client,
       config: { hostView: view },
-      initialDocument: { version: "1", id: "ignored", layout: "container", children: [{ type: "status", id: "old", variant: "empty", title: "Generated fallback" }] },
-      children: createElement(QChatThread),
-    }));
+      initialDocument: { version: "1", id: "ignored", layout: "container", children: [{ type: "status", id: "old", variant: "empty", title: "Generated fallback" }] }},createElement(QChatThread)
+    ));
     expect(html).toContain("Inbox");
     expect(html).not.toContain("Generated fallback");
     expect(() => createQChatHostView(() => null, { subject: 1 }, { parse() { throw new Error("Invalid host data"); } })).toThrow("Invalid host data");

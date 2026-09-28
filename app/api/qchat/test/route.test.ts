@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { POST } from "./route";
 
-const request = (content: string) => new Request("http://localhost/api/qchat/test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: [{ role: "user", content }] }) });
+const request = (content: string) => new Request("http://localhost/api/qchat/test", { method: "POST", headers: { "Content-Type": "application/json", origin: "http://localhost" }, body: JSON.stringify({ messages: [{ role: "user", content }] }) });
 const events = async (response: Response) => (await response.text()).trim().split("\n").map((line) => JSON.parse(line) as { type: string; document?: { children: readonly { type: string }[] } });
 
 describe("LangGraph test adapter", () => {
@@ -17,7 +17,7 @@ describe("LangGraph test adapter", () => {
     expect(JSON.stringify(result)).not.toContain("Simulated test failure");
   });
   it("rejects malformed requests", async () => {
-    const response = await POST(new Request("http://localhost/api/qchat/test", { method: "POST", body: "{}" }));
+    const response = await POST(new Request("http://localhost/api/qchat/test", { method: "POST", headers: { origin: "http://localhost" }, body: "{}" }));
     expect(response.status).toBe(400);
   });
   it("retrieves and compiles travel information without product-card coercion",async()=>{

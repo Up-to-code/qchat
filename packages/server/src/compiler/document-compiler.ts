@@ -18,6 +18,8 @@ export function compileToonUI(source:string,limits:QChatCompilerLimits,allowedIm
     for(const node of parsed.data.children){
       const cards=node.type==="product-collection"?node.items:node.type==="product-card"?[node]:[];
       if(cards.length>limits.maxCollectionItems)throw new Error("Collection item limit exceeded");
+      // An empty allowlist means "allow all http(s) hosts": callers must always pass a
+      // non-empty list so a future caller cannot silently open image exfiltration.
       for(const card of cards){if(card.image&&allowedImageHosts.length>0&&!allowedImageHosts.includes(new URL(card.image.src).hostname))throw new Error(`Image host is not allowed: ${new URL(card.image.src).hostname}`)}
     }
     return {document:parsed.data,diagnostics:[],durationMs:performance.now()-started};

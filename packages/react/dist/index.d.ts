@@ -182,7 +182,7 @@ interface QChatProviderProps {
     readonly initialDocument?: QChatUIDocument;
     readonly initialTools?: readonly QChatToolState[];
     readonly conversationId?: string;
-    readonly children: ReactNode;
+    readonly children?: ReactNode;
 }
 
 declare const defaultLocales: readonly QChatLocaleDefinition[];

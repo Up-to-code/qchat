@@ -1,4 +1,4 @@
-import type { QChatActionResult,QChatAgentEvent,QChatPerformanceRecord } from "@qchat/core";
+import type { QChatAgentEvent,QChatPerformanceRecord } from "@qchat/core";
 import type { QChatCompilerLimits,QChatRunRequest,QChatServer,QChatServerConfig } from "../interfaces/server.interfaces";
 import { compileToonUI } from "../compiler/document-compiler";
 import { composeSystemPrompt } from "../prompt/qchat-system-prompt";

@@ -6,7 +6,7 @@ import {QChatProvider} from "../provider/qchat-provider";
 import type {QChatClient} from "../interfaces/react.interfaces";
 import type {QChatMessageRecord} from "@qchat/core";
 const client:QChatClient={capabilities:{},async *run(){yield {type:"complete"}},async action(){return {status:"accepted"}}};
-const render=(content:string,attachments:QChatMessageRecord["attachments"])=>(renderToStaticMarkup(createElement(QChatProvider,{client,config:{localization:{locale:"ar-EG"}},children:createElement(QChatMessage,{message:{id:"test",role:"user",content,createdAt:"2026-09-25T00:00:00.000Z",attachments}})})));
+const render=(content:string,attachments:QChatMessageRecord["attachments"])=>(renderToStaticMarkup(createElement(QChatProvider,{client,config:{localization:{locale:"ar-EG"}}},createElement(QChatMessage,{message:{id:"test",role:"user",content,createdAt:"2026-09-25T00:00:00.000Z",attachments}}))));
 describe("message content states",()=>{
   const image=[{kind:"image" as const,mediaType:"image/png",previewUrl:"data:image/png;base64,YQ==",filename:"image.png"}];
   it("renders image-only history without a text bubble",()=>{const html=render("",image);expect(html).toContain("<img");expect(html).not.toContain('class="qchat-bubble"');expect(html.indexOf('class="qchat-meta"')).toBeLessThan(html.indexOf('class="qchat-message-attachments"'))});

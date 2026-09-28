@@ -34,7 +34,7 @@ function ProductCard({card}:{readonly card:QChatProductCardNode}){
     void dispatch({name:card.primaryAction.name,sourceNodeId:card.id,payload:{...card.primaryAction.payload,color:color??"",size:size??"",...(resolved?.exact?{variantId:resolved.exact.id}:{})}});
   };
   return <article className="qchat-product">
-    {image&&<img src={image.src} alt={image.alt}/>}
+    {image&&<img src={image.src} alt={image.alt} referrerPolicy="no-referrer"/>}
     <div className="qchat-product-body">
       {card.tags&&<div className="qchat-tags">{card.tags.map((tag)=><span key={tag}>{tag}</span>)}</div>}
       <div className="qchat-product-heading"><h4>{card.title}</h4><strong aria-live="polite">{resolved?.isFromPrice?"From ":""}{formattedPrice}</strong></div>

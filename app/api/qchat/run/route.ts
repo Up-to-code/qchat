@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createQChatServer } from "@qchat/server";
 import { showcaseAgentGraph } from "../../../server/showcase-agent-graph";
 import { streamAgentModel } from "../../../server/agent-model-stream";
+import { guardPreviewRequest } from "../../../server/request-guard";
 import {GeminiProviderError} from "../../../server/gemini-provider";
 import { trustedFallbackDocument } from "../../../server/showcase-ui-fallback";
 import type {ModelMetric} from "../../../server/model-performance";
@@ -15,6 +16,8 @@ const encode = (event: unknown) => new TextEncoder().encode(`${JSON.stringify(ev
 
 /** This endpoint never returns the Gemini key or the provider's raw errors. */
 export async function POST(request: Request) {
+  const guard = guardPreviewRequest(request, 30);
+  if (guard) return guard;
   const requestStarted=performance.now();
   const candidateRunId=request.headers.get("x-qchat-run-id")??"";
   const runId=/^[a-zA-Z0-9-]{1,80}$/.test(candidateRunId)?candidateRunId:crypto.randomUUID();
@@ -60,6 +63,8 @@ export async function POST(request: Request) {
           controller.enqueue(encode({ type: "tool.start", toolCallId: "retrieval", name: plan.catalogResult?"lookup_showcase_products":"search_knowledge_index" }));
           controller.enqueue(encode({ type: "tool.result", toolCallId: "retrieval", summary: `${hits.length} indexed records retrieved` }));
           let providerFailure:GeminiProviderError|undefined;
+          // plan.catalogResult/retrievalHits are trusted host retriever data. Hosts plugging
+          // untrusted sources here would open prompt injection through this channel.
           const server=createQChatServer({
             customSystemPrompt:plan.catalogResult?`Return ONLY one complete TOON document for a commerce UI. No markdown fences or prose. Use schema version 1 with version, id, layout and children. Use a product-collection containing product-card nodes with stable catalog IDs, price objects, optional approved images, colors and sizes. Do not invent products, variants, prices or image URLs. Do not include actions; live actions require a host authorizer. The trusted catalog is: ${plan.catalogResult}`:`Return ONLY one complete TOON document with version "1", a stable id, layout "container", and children containing one or more info-card nodes. Each info-card must have type "info-card", id, title, description, optional facts as label/value pairs, and optional source. Use only these trusted retrieved records; never invent facts. If records are irrelevant, reply with an empty status node. Reply in ${parsed.data.locale}. Trusted records: ${plan.retrievalHits}`,
             allowedImageHosts:["images.unsplash.com","mir-s3-cdn-cf.behance.net"],

@@ -8,6 +8,10 @@ export type ChatGPTUser = {
   fullName: string | null;
 };
 
+// These headers are injected by the ChatGPT Apps proxy and carry no signature.
+// Only trust them on routes reachable exclusively through that proxy; a direct
+// deployment must not treat client-supplied oai-* headers as identity.
+
 const USER_ID_HEADER = "oai-authenticated-user-id";
 const USER_EMAIL_HEADER = "oai-authenticated-user-email";
 const USER_FULL_NAME_HEADER = "oai-authenticated-user-full-name";

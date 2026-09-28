@@ -27,7 +27,8 @@ import type {
   HighlighterGeneric,
   ThemedToken,
 } from "shiki";
-import { createHighlighter } from "shiki";
+// The shiki engine (and its language WASM) loads on first highlight via
+// dynamic import so it never lands in the initial client chunk.
 
 // Shiki uses bitflags for font styles: 1=italic, 2=bold, 4=underline
 // oxlint-disable-next-line eslint(no-bitwise)
@@ -155,10 +156,12 @@ const getHighlighter = (
     return cached;
   }
 
-  const highlighterPromise = createHighlighter({
-    langs: [language],
-    themes: ["github-light", "github-dark"],
-  });
+  const highlighterPromise = import("shiki").then((module) =>
+    module.createHighlighter({
+      langs: [language],
+      themes: ["github-light", "github-dark"],
+    })
+  );
 
   highlighterCache.set(language, highlighterPromise);
   return highlighterPromise;
@@ -389,16 +392,13 @@ export const CodeBlockContent = ({
     [code, language, rawTokens]
   );
 
-  // Async highlighting result (populated after shiki loads)
+  // Async highlighting result (populated after shiki loads).
+  // Invalidate stale tokens when code/language changes (adjust state during render).
   const [asyncTokens, setAsyncTokens] = useState<TokenizedCode | null>(null);
-  const asyncKeyRef = useRef({ code, language });
-
-  // Invalidate stale async tokens synchronously during render
-  if (
-    asyncKeyRef.current.code !== code ||
-    asyncKeyRef.current.language !== language
-  ) {
-    asyncKeyRef.current = { code, language };
+  const [prevAsyncKey, setPrevAsyncKey] = useState(`${code}::${language}`);
+  const asyncKey = `${code}::${language}`;
+  if (prevAsyncKey !== asyncKey) {
+    setPrevAsyncKey(asyncKey);
     setAsyncTokens(null);
   }
 

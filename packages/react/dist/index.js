@@ -197,18 +197,18 @@ function QChatProvider({ client, config = {}, initialMessages = [], initialDocum
     return createQChatStore(client, initialMessages, conversationId, initialDocument, initialTools, (_c2 = (_a2 = config.localization) == null ? void 0 : _a2.locale) != null ? _c2 : (_b2 = config.localization) == null ? void 0 : _b2.defaultLocale);
   });
   const storedLocale = useStore(store, (state) => state.locale);
+  const telemetryOnRecord = (_a = config.telemetry) == null ? void 0 : _a.onRecord;
   useEffect(() => store.subscribe((state, previous) => {
-    var _a2, _b2;
     if (state.performance !== previous.performance) {
       const record = state.performance.at(-1);
       if (record) {
         try {
-          (_b2 = (_a2 = config.telemetry) == null ? void 0 : _a2.onRecord) == null ? void 0 : _b2.call(_a2, record);
+          telemetryOnRecord == null ? void 0 : telemetryOnRecord(record);
         } catch (e) {
         }
       }
     }
-  }), [store, (_a = config.telemetry) == null ? void 0 : _a.onRecord]);
+  }), [store, telemetryOnRecord]);
   useEffect(() => {
     var _a2;
     const requested = (_a2 = config.localization) == null ? void 0 : _a2.locale;
@@ -391,7 +391,7 @@ function ProductCard({ card }) {
     void dispatch({ name: card.primaryAction.name, sourceNodeId: card.id, payload: __spreadValues(__spreadProps(__spreadValues({}, card.primaryAction.payload), { color: color != null ? color : "", size: size != null ? size : "" }), (resolved == null ? void 0 : resolved.exact) ? { variantId: resolved.exact.id } : {}) });
   };
   return /* @__PURE__ */ jsxs("article", { className: "qchat-product", children: [
-    image && /* @__PURE__ */ jsx2("img", { src: image.src, alt: image.alt }),
+    image && /* @__PURE__ */ jsx2("img", { src: image.src, alt: image.alt, referrerPolicy: "no-referrer" }),
     /* @__PURE__ */ jsxs("div", { className: "qchat-product-body", children: [
       card.tags && /* @__PURE__ */ jsx2("div", { className: "qchat-tags", children: card.tags.map((tag) => /* @__PURE__ */ jsx2("span", { children: tag }, tag)) }),
       /* @__PURE__ */ jsxs("div", { className: "qchat-product-heading", children: [
@@ -544,7 +544,7 @@ function QChatThread() {
     if ((last == null ? void 0 : last.role) === "user") following.current = true;
     const scroller = (_a2 = end.current) == null ? void 0 : _a2.closest(".qchat-thread");
     if (following.current && scroller instanceof HTMLElement) scroller.scrollTop = scroller.scrollHeight;
-  }, [last == null ? void 0 : last.content, last == null ? void 0 : last.id, status, error]);
+  }, [last == null ? void 0 : last.content, last == null ? void 0 : last.id, last == null ? void 0 : last.role, status, error]);
   return /* @__PURE__ */ jsxs5(Thread, { className: "qchat-thread", children: [
     /* @__PURE__ */ jsx6(QChatRenderProbe, {}),
     /* @__PURE__ */ jsxs5("div", { className: "qchat-thread-inner", children: [

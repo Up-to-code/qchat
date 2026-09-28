@@ -4,7 +4,7 @@ import { POST } from "./route";
 
 const originalKey = process.env.GEMINI_API_KEY;
 afterEach(() => { if (originalKey === undefined) delete process.env.GEMINI_API_KEY; else process.env.GEMINI_API_KEY = originalKey; vi.unstubAllGlobals(); });
-const request = (body: unknown) => new Request("http://localhost/api/qchat/run", { method: "POST", body: JSON.stringify(body), headers: { "Content-Type": "application/json" } });
+const request = (body: unknown) => new Request("http://localhost/api/qchat/run", { method: "POST", body: JSON.stringify(body), headers: { "Content-Type": "application/json", origin: "http://localhost" } });
 
 describe("Gemini server boundary", () => {
   it("does not accept requests without a server-only key", async () => {

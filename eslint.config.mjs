@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "dist/**",
+    "packages/*/dist/**",
     "next-env.d.ts",
   ]),
   {
@@ -21,6 +23,14 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-unused-vars": "off",
       "react-hooks/purity": "off",
       "react-hooks/set-state-in-effect": "off",
+    },
+  },
+  {
+    // Dynamic blob:/data: preview URLs and host-provided image URLs cannot
+    // use next/image optimization.
+    files: ["packages/**/*.tsx", "app/elements-chat-ui.tsx", "components/ai-elements/**/*.tsx"],
+    rules: {
+      "@next/next/no-img-element": "off",
     },
   },
 ]);

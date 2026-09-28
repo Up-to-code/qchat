@@ -1,13 +1,18 @@
 import {z} from "zod";
 import {GoogleGenAI,Modality} from "@google/genai";
 import {showcaseModelConfig} from "../../../../server/showcase-model-config";
+import {guardPreviewRequest} from "../../../../server/request-guard";
 export const runtime="nodejs";
 const inputSchema=z.object({locale:z.string().regex(/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/).max(40)});
 /** Local preview only. A deployed host must authenticate users before issuing tokens. */
 export async function POST(request:Request){
+  const guard = guardPreviewRequest(request, 10);
+  if (guard) return guard;
   const url=new URL(request.url);
   const origin=request.headers.get("origin");
   if(origin&&origin!==url.origin)return Response.json({error:"Cross-origin voice sessions are not allowed."},{status:403});
+  const fetchSite=request.headers.get("sec-fetch-site");
+  if(fetchSite&&fetchSite!=="same-origin")return Response.json({error:"Cross-origin voice sessions are not allowed."},{status:403});
   if(!["localhost","127.0.0.1","[::1]"].includes(url.hostname))return Response.json({error:"Configure host authentication before deploying voice sessions."},{status:403});
   const key=process.env.GEMINI_API_KEY;
   if(!key)return Response.json({error:"Gemini is not configured."},{status:503});

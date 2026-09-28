@@ -1,6 +1,6 @@
 import { afterEach,beforeEach,describe,expect,it,vi } from "vitest";
 import { POST } from "./route";
-const request=(data:unknown)=>new Request("http://localhost/api/qchat/voice/transcribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+const request=(data:unknown)=>new Request("http://localhost/api/qchat/voice/transcribe",{method:"POST",headers:{"Content-Type":"application/json",origin:"http://localhost"},body:JSON.stringify(data)});
 const valid={data:"A".repeat(120),format:"webm",locale:"ar-EG"};
 describe("Gemini voice graph",()=>{
   const oldKey=process.env.GEMINI_API_KEY;
