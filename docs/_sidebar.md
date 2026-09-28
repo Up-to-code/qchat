@@ -1,4 +1,6 @@
 - [Home](./README.md)
+- [Architecture](./architecture.md)
+- [API reference](./api-reference.md)
 - [Installation](./installation.md)
 - [Server and adapters](./server-and-adapters.md)
 - [Configuration and customization](./configuration.md)
