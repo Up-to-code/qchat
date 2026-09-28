@@ -4,6 +4,8 @@ Production-oriented generative UI compiler and React chat runtime. QChat connect
 
 Packages: `@qchat/core`, `@qchat/server`, `@qchat/orpc`, and `@qchat/react`. See [the guides](./docs/README.md) and run the included showcase for a deterministic end-to-end stream.
 
+Developer docs are published at <https://up-to-code.github.io/qchat/>.
+
 The showcase voice animation uses [Rare UI's Fluid Orb](https://rareui.com) by Swami Malode. Its [license](./components/ui/RARE_UI_LICENSE.txt) requires attribution and restricts redistribution of the component itself, so it remains in the private showcase app and is not included in the published QChat packages.
 
 ## Prerequisites
@@ -131,3 +133,7 @@ The portable build runs Vinext directly without a host `timeout` command. The ma
 # Live model preview
 
 The showcase streams from Gemini through LangGraph with a private server-side key. See [Gemini setup](docs/gemini.md). The no-key showcase remains available for deterministic UI tests.
+
+## License
+
+MIT — see [LICENSE](./LICENSE).
